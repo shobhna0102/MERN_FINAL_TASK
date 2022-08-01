@@ -8,8 +8,7 @@ function Categorydata() {
         {
             category_name: "",
             parent: "",
-            createdAt: "",
-            updatedAt: "",
+
         });
 
 
@@ -25,13 +24,14 @@ function Categorydata() {
     };
     const postData = (e) => {
         e.preventDefault();
-        const { category_name, parent, createdAt, updatedAt } = data;
+        const { category_name, parent, } = data;
         fetch("/api/categoryDetail",
             {
                 method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ category_name, parent, createdAt, updatedAt })
+                body: JSON.stringify({ category_name, parent })
             })
             .then((response) => response.json())
+            .catch((error) => { console.log("Error", error) })
 
 
         // const result = await res.json();
@@ -80,34 +80,8 @@ function Categorydata() {
                                     placeholder="Enter Parent Category"
                                 />
                             </div>
-                            <div className="mb-3">
-                                <label className="fNameorm-label">
-                                    CreatedAt
-                                </label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    id="exampleFormControlInput1"
-                                    name="createdAt"
-                                    value={data.createdAt}
-                                    onChange={inputEvent}
-                                    placeholder="Enter Your Created Date"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">
-                                    UpdatedAt
-                                </label>
-                                <input
-                                    type="date"
-                                    className="form-control"
-                                    id="exampleFormControlInput1"
-                                    name="updatedAt"
-                                    value={data.updatedAt}
-                                    onChange={inputEvent}
-                                    placeholder="Enter Your Updated Date"
-                                />
-                            </div>
+
+
                             <div className="col-12">
                                 <button className="btn btn-outline-primary" type="submit" onClick={postData}>AddCategory</button>
                             </div>

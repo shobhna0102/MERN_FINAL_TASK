@@ -5,10 +5,8 @@ const mongoose = require('mongoose');
 const category = new mongoose.Schema({
     category_name: { type: String, min: 3, max: 255 },
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'categories', default: null },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
 
-});
+}, { timestamps: true });
 
 
 const products = new mongoose.Schema({
@@ -17,10 +15,9 @@ const products = new mongoose.Schema({
     description: { type: String, min: 3, max: 255 },
     price: { type: Number },
     images: { type: Array },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
 
-});
+
+}, { timestamps: true });
 
 
 
@@ -31,8 +28,7 @@ function validateCategoryDetail(cat) {
     const schema = Joi.object({
         category_name: Joi.string().max(255).required(),
         parent: Joi.string(),
-        createdAt: Joi.date(),
-        updatedAt: Joi.date()
+
     });
     return schema.validate(cat);
 }
@@ -44,8 +40,7 @@ function validateProductDetail(product) {
         description: Joi.string().required(),
         price: Joi.number().required(),
         images: Joi.string(),
-        createdAt: Joi.date(),
-        updatedAt: Joi.date()
+
     });
     return schema.validate(product);
 }

@@ -36,8 +36,7 @@ router.post("/categoryDetail", async (req, res) => {
       _.pick(req.body, [
         "category_name",
         "parent",
-        "createdAt",
-        "updatedAt",
+
       ])
     );
     await catData.save();
@@ -45,8 +44,7 @@ router.post("/categoryDetail", async (req, res) => {
       _.pick(catData, [
         "category_name",
         "parent",
-        "createdAt",
-        "updatedAt",
+
       ])
     );
   } catch (error) {
