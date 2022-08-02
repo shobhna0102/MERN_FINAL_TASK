@@ -10,7 +10,6 @@ const multer = require('multer');
 
 router.post("/categoryDetail", async (req, res) => {
 
-
   try {
     const { error } = validateCategoryDetail(req.body);
 
@@ -32,6 +31,7 @@ router.post("/categoryDetail", async (req, res) => {
       return res.status(400).send("category name already exists...");
     }
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const catData = new categoryModel(
       _.pick(req.body, [
         "category_name",
@@ -74,6 +74,26 @@ router.delete("/deleteCategory", async (req, res) => {
 router.get("/fetchCategory", async (req, res) => {
   try {
     const category = await categoryModel.find();
+
+    if (!category) {
+      logger.log({
+        message: "categories_find: category does not exists ",
+        level: "info",
+      });
+      return res.status(400).send("Category does not exists");
+    } else {
+      res.status(200).json(category);
+    }
+
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+
+router.get("/fetchCategoryName", async (req, res) => {
+  try {
+    const category = await categoryModel.find().select('category_name');
 
     if (!category) {
       logger.log({

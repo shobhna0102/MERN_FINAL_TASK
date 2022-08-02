@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { isNull } = require('lodash');
+
 const mongoose = require('mongoose');
 
 const category = new mongoose.Schema({
@@ -7,7 +7,6 @@ const category = new mongoose.Schema({
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'categories', default: null },
 
 }, { timestamps: true });
-
 
 const products = new mongoose.Schema({
     category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' },

@@ -2,13 +2,12 @@ let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
 require('./setup/connect_db')();
-
+const cors = require('cors');
 
 let indexRouter = require('./routes/index');
-
-
-
 let app = express();
+
+app.use(cors())
 
 // view engine setup
 
