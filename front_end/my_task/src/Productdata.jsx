@@ -1,80 +1,95 @@
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 
 
-function Categorydata() {
-    const [data, setData] = useState(
-        {
-            category_id: "",
-            product_name: " ",
-            price: " ",
-            images: " ",
-        });
-
+const Productdata = () => {
+    const [category_name, setName] = useState("");
+    const [product_name, setProName] = useState("");
+    const [description, setDesctiption] = useState("");
+    const [price, setPrice] = useState("");
     const [selectedFile, setSelectedFile] = useState();
+    const [fetchPId, setFetchPId] = useState([]);
     // const [isFilePicked, setIsFilePicked] = useState(false);
 
+    console.log(fetchPId);
     const changeHandler = (event) => {
-
         setSelectedFile(event.target.files[0]);
         //setIsSelected(true);
     };
-    const inputEvent = (event) => {
-        const { name, value } = event.target;
-        setData((preval) => {
-            return {
-                ...preval,
-                [name]: value
 
-            };
-        });
-    };
-    const handleSubmission = () => {
-    };
-    const postData = (e) => {
+    useEffect(() => {
+        fetch("http://localhost:5000/api/fetchCategory")
+            .then((res) => res.json())
+            .then((data) => {
+                setFetchPId(data);
+            });
+    }, []);
+
+
+
+
+
+    const postData = async (e) => {
         e.preventDefault();
-        const { category_id, product_name, price, images } = data;
-        fetch("/api/categoryDetail",
-            {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ category_id, product_name, price, images })
-            })
-            .then((response) => response.json())
+        const response = await fetch("http:localhost:5000/api/productAdd", {
+            method: "POST",
 
-
-        // const result = await res.json();
-        // if (!result) {
-        //     window.alert("caregory does not add")
-        // } else {
-        //     window.alert("category added successfully......")
-        // }
-
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "access-control-allow-origin": "*",
+            },
+            body: JSON.stringify({
+                category_name,
+                product_name,
+                description,
+                price,
+                selectedFile
+            }),
+        });
+        if (response.ok) {
+            console.log("success");
+            alert("Added");
+            window.location.reload();
+        } else {
+            console.log(response);
+            alert("error");
+        }
     }
 
-
-
+    const handleSubmission = () => {
+    };
     return (
         <div className="my-5">
             <h1 className="text-center">Add Product</h1>
             <div className="container contact_div">
                 <div className="row">
                     <div className="col-md-6 col-10 mx-auto">
-                        <form method="POST">
+                        <form method="POST" onSubmit={postData}>
                             <div className="mb-3">
                                 <label className="fNameorm-label">
-                                    Category_id
+                                    Category
                                 </label>
-                                <input
-                                    type="text"
+                                <select
                                     className="form-control"
                                     id="exampleFormControlInput1"
-                                    name="category_id"
-                                    value={data.category_id}
-                                    onChange={inputEvent}
-                                    placeholder="Enter Your Name"
-                                />
+                                    name="parent"
+                                    defaultValue=""
+                                    onChange={(e) => setName(e.target.value)}
+                                >
+                                    <option value="" disabled>
+                                        Select Parent category
+                                    </option>
+                                    {fetchPId.map(
+                                        (item) =>
+
+                                        (
+                                            <option key={item._id} value={item._id}> {item.category_name}
+                                            </option>
+                                        )
+                                    )}
+                                </select>
                             </div>
                             <div className="mb-3">
                                 <label className="fNameorm-label">
@@ -85,8 +100,8 @@ function Categorydata() {
                                     className="form-control"
                                     id="exampleFormControlInput1"
                                     name="product_name"
-                                    value={data.product_name}
-                                    onChange={inputEvent}
+                                    value={product_name}
+                                    onChange={(e) => setProName(e.target.value)}
                                     placeholder="Enter Parent Category"
                                 />
                             </div>
@@ -97,8 +112,8 @@ function Categorydata() {
                                 <textarea
                                     className="form-control"
                                     name="description"
-                                    value={data.description}
-                                    onChange={inputEvent}
+                                    value={description}
+                                    onChange={(e) => setDesctiption(e.target.value)}
                                     id="exampleFormControlTextarea1"
                                     rows="3"
                                 ></textarea>
@@ -112,8 +127,8 @@ function Categorydata() {
                                     className="form-control"
                                     id="exampleFormControlInput1"
                                     name="price"
-                                    value={data.price}
-                                    onChange={inputEvent}
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
                                     placeholder="Enter Parent Category"
                                 />
                             </div>
@@ -145,4 +160,4 @@ function Categorydata() {
     )
 }
 
-export default Categorydata;
+export default Productdata;

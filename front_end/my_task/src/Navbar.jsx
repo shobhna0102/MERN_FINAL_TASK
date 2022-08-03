@@ -38,11 +38,21 @@ const Navbar = () => {
                                             Category
                                         </NavLink>
                                     </li>
-
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link menu_active" to="/showcategory">
+                                            ShowCategory
+                                        </NavLink>
+                                    </li>
                                     <li className="nav-item">
                                         <NavLink className="nav-link menu_active" to="/product">
                                             Product
                                         </NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink className="nav-link menu_active" to="/showproduct">
+                                            ShowProduct
+                                        </NavLink>
+
                                     </li>
                                 </ul>
                             </div>

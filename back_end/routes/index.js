@@ -31,7 +31,7 @@ router.post("/categoryDetail", async (req, res) => {
       return res.status(400).send("category name already exists...");
     }
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // res.setHeader('Access-Control-Allow-Origin', '*');
     const catData = new categoryModel(
       _.pick(req.body, [
         "category_name",
